@@ -3,6 +3,7 @@
 #include "rlImGui.h"
 
 #include "Water.hpp"
+#include "UI.hpp"
 
 #include<vector>
 
@@ -13,8 +14,10 @@ int main(){
 	rlImGuiSetup(true);
 	SetTargetFPS(100);
 
+	UI Ui = UI();
+
 	std::vector<Water> waterParticles;
-	Water water(Vector2{14, 0});
+	Water water(Vector2{14, 0}, 8);
 	water.Spawn(waterParticles, 8);
 
 	while(WindowShouldClose() == false){
@@ -24,7 +27,9 @@ int main(){
 		rlImGuiBegin();
 		
 		DrawFPS(3, 3);
-		
+
+		Ui.RenderUI(waterParticles);
+
 		for(Water &water : waterParticles){
 
 			water.Update(water);

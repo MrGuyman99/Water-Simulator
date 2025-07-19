@@ -6,6 +6,6 @@
 class UI{
 
     public:
-    void RenderUI(Water &water);
+    void RenderUI(std::vector<Water> &vector);
 
 };

@@ -7,15 +7,15 @@
 
 #include<iostream>
 
-Water::Water(Vector2 Position){
+Water::Water(Vector2 Position, float Size){
 
     //Defaults Values (ALL SUBJECT TO CHANGE)
     Gravity = 191.0f;
     Velocity = {0, 0};
     Dampening = 0.7f;
-    Size = 8;
     Num_Bounces = 0;
     Bounce_Limit = 4;
+    this->Size = Size;
 
 }
 
@@ -37,7 +37,7 @@ void Water::Draw(std::vector<Water> &vector){
         }
 
         DrawLine(PreviousX, PreviousY, vector[i].Position.x, vector[i].Position.y, PURPLE);
-        
+
         PreviousX = vector[i].Position.x;
         PreviousY = vector[i].Position.y;
 
@@ -109,20 +109,9 @@ void Water::RenderUI(){
 
 void Water::Spawn(std::vector<Water> &vector, int num_spawn){
 
-    float BlockX = 30;
-    float BlockY = 30;
-
     for(int i = 0; num_spawn >= i; i++){
 
-        vector.emplace_back(Vector2{BlockX, BlockY});
-        BlockX = BlockX + 16;
-        
-        if(i % 8 == 0){
-
-            BlockY = BlockY + 30;
-            BlockX = 30;
-
-        }
+        vector.emplace_back(Vector2{(float)GetScreenWidth() / 2 + (i * 32), (float)GetScreenHeight() / 2}, 8);
 
     }
 

@@ -15,7 +15,8 @@ include(cmake/rlimgui.cmake)
 # ===== Our Project =====
 set(SOURCE_FILES
 	src/main.cpp
-	src/Water.cpp)
+	src/Water.cpp
+	src/UI.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 target_link_libraries(${PROJECT_NAME} rlimgui)
