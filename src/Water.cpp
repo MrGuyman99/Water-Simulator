@@ -16,6 +16,7 @@ Water::Water(Vector2 Position, float Size){
     Num_Bounces = 0;
     Bounce_Limit = 4;
     this->Size = Size;
+    this->Position = Position;
 
 }
 
@@ -112,6 +113,7 @@ void Water::Spawn(std::vector<Water> &vector, int num_spawn){
     for(int i = 0; num_spawn >= i; i++){
 
         vector.emplace_back(Vector2{(float)GetScreenWidth() / 2 + (i * 32), (float)GetScreenHeight() / 2}, 8);
+        std::cout << vector[i].Position.x << std::endl << vector[i].Position.y << std::endl;
 
     }
 
