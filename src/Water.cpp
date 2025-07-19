@@ -5,12 +5,13 @@
 
 #include "Water.hpp"
 
-Water::Water(){
+#include<iostream>
+
+Water::Water(Vector2 Position){
 
     //Defaults Values (ALL SUBJECT TO CHANGE)
     Gravity = 191.0f;
     Velocity = {0, 0};
-    Position = {(float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2};
     Dampening = 0.7f;
     Size = 8;
     Num_Bounces = 0;
@@ -18,14 +19,33 @@ Water::Water(){
 
 }
 
-void Water::Draw(){
+void Water::Draw(std::vector<Water> &vector){
 
     //Draws the particle
     DrawCircle(Position.x, Position.y, Size, PURPLE);
+    int PreviousX = 0;
+    int PreviousY = 0;
+
+    for(size_t i = 0; i < vector.size(); i++){
+
+        if(i == 0){
+
+            PreviousX = vector[i].Position.x;
+            PreviousY = vector[i].Position.y;
+            continue;
+
+        }
+
+        DrawLine(PreviousX, PreviousY, vector[i].Position.x, vector[i].Position.y, PURPLE);
+        
+        PreviousX = vector[i].Position.x;
+        PreviousY = vector[i].Position.y;
+
+    }
 
 }
 
-void Water::Update(){
+void Water::Update(Water &water){
 
     //If the Particle hits the bottom of the screen
     if(Position.y + Size > GetScreenHeight()){
@@ -55,6 +75,8 @@ void Water::Update(){
             
     }
 
+    //Simple thing to draw
+    DrawLine(Position.x, Position.y, water.Position.x, water.Position.y, PURPLE);
 
 }
 
@@ -74,11 +96,34 @@ void Water::RenderUI(){
     ImGui::DragFloat("Gravity", &Gravity);
     ImGui::DragFloat("Dampening", &Dampening);
     ImGui::DragFloat("Bounce Limit", &Bounce_Limit);
+    ImGui::DragFloat("Position X", &Position.x);
+    ImGui::DragFloat("Position Y", &Position.y);
 
     ImGui::Text("X: %.2f", Position.x);
     ImGui::Text("Y: %.2f", Position.y);
     ImGui::Text("Velocity Y: %.2f", Velocity.y);
     ImGui::Text("Velocity X: %0.2f", Velocity.x);
     ImGui::End();
+
+}
+
+void Water::Spawn(std::vector<Water> &vector, int num_spawn){
+
+    float BlockX = 30;
+    float BlockY = 30;
+
+    for(int i = 0; num_spawn >= i; i++){
+
+        vector.emplace_back(Vector2{BlockX, BlockY});
+        BlockX = BlockX + 16;
+        
+        if(i % 8 == 0){
+
+            BlockY = BlockY + 30;
+            BlockX = 30;
+
+        }
+
+    }
 
 }

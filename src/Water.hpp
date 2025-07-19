@@ -1,14 +1,16 @@
 #pragma once
 #include "raylib.h"
+#include<vector>
 
 class Water{
 
     public:
 
-        Water();
-        void Draw();
-        void Update();
+        Water(Vector2 Position);
+        void Draw(std::vector<Water> &vector);
+        void Update(Water &water);
         void RenderUI();
+        void Spawn(std::vector<Water> &vector, int num_spawn);
 
     private:
 

@@ -4,30 +4,36 @@
 
 #include "Water.hpp"
 
+#include<vector>
+
 int main(){
 
 	SetConfigFlags(FLAG_WINDOW_RESIZABLE);
 	InitWindow(800, 600, "Water Sim");
 	rlImGuiSetup(true);
-	
 	SetTargetFPS(100);
 
-	Water water = Water();
+	std::vector<Water> waterParticles;
+	Water water(Vector2{14, 0});
+	water.Spawn(waterParticles, 8);
 
 	while(WindowShouldClose() == false){
 
 		BeginDrawing();
 		ClearBackground(DARKGRAY);
+		rlImGuiBegin();
 		
 		DrawFPS(3, 3);
-		water.Draw();
 		
-		rlImGuiBegin();
-		water.RenderUI();
+		for(Water &water : waterParticles){
+
+			water.Update(water);
+			water.Draw(waterParticles);
+
+		}
+
 		rlImGuiEnd();
-		
 		EndDrawing();
-		water.Update();
 
 	}
 
